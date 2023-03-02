@@ -1,0 +1,20 @@
+---
+- name: "Installing and Managing Apache on webserver"
+  become: true
+  hosts: amazon
+  tasks:
+
+    - name: "Installing Apache Webserver Package"
+      yum:
+        name: httpd
+        state: present
+
+
+    - name: "Apache - Enabling php Support"
+      shell: amazon-linux-extras install php7.4 -y
+
+    - name: "Webserver - Service restart/enable"
+      service:
+        name: httpd
+        state: restarted
+        enabled: true    
