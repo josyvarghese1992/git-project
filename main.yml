@@ -2,6 +2,8 @@
 - name: "Installing and Managing Apache on webserver"
   become: true
   hosts: amazon
+  vars_files:
+    - variables.yml
   tasks:
 
     - name: "Installing Apache Webserver Package"
@@ -13,8 +15,18 @@
     - name: "Apache - Enabling php Support"
       shell: amazon-linux-extras install php7.4 -y
 
+
+    - name: "Webserver - Creating httpd.conf file"
+      template:
+        src: ./httpd.conf.j2
+        dest: /etc/httpd/conf/httpd.conf 
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}"
+
+
     - name: "Webserver - Service restart/enable"
       service:
         name: httpd
         state: restarted
-        enabled: true    
+        enabled: true
+      
