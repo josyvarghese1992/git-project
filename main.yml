@@ -29,4 +29,34 @@
         name: httpd
         state: restarted
         enabled: true
+    
+    - name: "Webserver - Creating VirtualHost {{ httpd_domain }}"
+      template:
+        src: "./virtualhost.conf.j2"
+        dest: "/etc/httpd/conf.d/{{ httpd_domain }}.conf"
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}" 
+        
+        
+    - name: "Webserver - Creating DocumentRoot /var/www/html/{{ httpd_domain }}"
+      file:
+        path: "/var/www/html/{{ httpd_domain }}"
+        state: directory
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}"
       
+    - name: "Apache - Creating Sample test.php & test.html"
+      copy:
+        src: "{{ item }}"
+        dest: "/var/www/html/{{ httpd_domain }}/"
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}"
+      with_items:
+        - test.html
+        - test.php
+
+    - name: "Webserver - Service restart/enable"
+      service:
+        name: httpd
+        state: restarted
+        enabled: true      
