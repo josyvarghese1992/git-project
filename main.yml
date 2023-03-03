@@ -82,3 +82,12 @@
         name: "root"
         password: "{{ mariadb_root_password }}"
         host_all: true
+
+    - name: "Mariadb-server -removing anonymous users"
+      mysql_user:
+        login_user: "root"
+        login_password: "{{ mariadb_root_password }}"
+        name: ""
+        password: ""
+        host_all: true
+        state: absent      
