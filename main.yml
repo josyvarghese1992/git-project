@@ -125,4 +125,19 @@
         src: "./wp-config.php.j2"
         dest: "/var/www/html/{{ httpd_domain }}/wp-config.php"
         owner: "{{ httpd_owner }}"
-        group: "{{ httpd_group }}"      
+        group: "{{ httpd_group }}"
+
+    - name: "Webserver - Service restart/enable"
+      service:
+        name: httpd
+        state: restarted
+        enabled: true
+
+
+    - name: "Mariadb-server restarting/enabling service"
+      service:
+        name: mariadb
+        state: restarted
+        enabled: true
+   
+          
