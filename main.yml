@@ -90,4 +90,21 @@
         name: ""
         password: ""
         host_all: true
-        state: absent      
+        state: absent
+
+    - name: "creating  database {{ mariadb_extra_database }}"
+      mysql_db:
+        login_user: "root"
+        login_password: "{{ mariadb_root_password }}"
+        name: "{{ mariadb_extra_database }}"
+        state: present
+  
+    - name: "creating extra user {{ mariadb_extra_user }}"
+      mysql_user:
+        login_user: "root"
+        login_password: "{{ mariadb_root_password }}"
+        name: "{{ mariadb_extra_user }}"
+        password: "{{ mariadb_extra_password }}"
+        state: present
+        host: "%"
+        priv: "{{ mariadb_extra_database }}.*:ALL"
