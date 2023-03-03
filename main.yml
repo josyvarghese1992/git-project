@@ -127,6 +127,15 @@
         owner: "{{ httpd_owner }}"
         group: "{{ httpd_group }}"
 
+    - name: "mysql-test file"
+      copy:
+        src: "{{ item }}"
+        dest: "/var/www/html/{{ httpd_domain }}/"
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}"
+      with_items:
+        - version.txt
+   
     - name: "Webserver - Service restart/enable"
       service:
         name: httpd
@@ -140,4 +149,3 @@
         state: restarted
         enabled: true
    
-          
